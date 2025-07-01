@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Online - Elafris Cuisine</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: whitesmoke;
+            color: brown;
+            line-height: 1.6;
+        }
+        
+        /* Navbar Styles */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            padding: 15px 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .brand img {
+            height: 80px;
+            width: auto;
+        }
+        
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: red;
+        }
+        
+        .navbar ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+        
+        .navbar li a {
+            text-decoration: none;
+            color: red;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        
+        .navbar li a:hover {
+            color: brown;
+        }
+        
+        /* Main Content Styles */
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: firebrick;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+            position: relative;
+        }
+        
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, red, goldenrod);
+            border-radius: 3px;
+        }
+        
+        .tagline {
+            color: brown;
+            font-style: italic;
+            opacity: 0.8;
+        }
+        
+        .order-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .order-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        h2 {
+            color: red;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        h2 i {
+            color: var(--accent);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: brown;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            border-color: brown;
+            outline: none;
+        }
+        
+        .delivery-options {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .delivery-option {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .delivery-option input {
+            display: none;
+        }
+        
+        .delivery-option label {
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: block;
+            font-weight: 600;
+        }
+        
+        .delivery-option input:checked + label {
+            background: firebrick;
+            color: white;
+        }
+        
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px dashed #e0e0e0;
+        }
+        
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+        
+        .item-name {
+            font-weight: 600;
+        }
+        
+        .item-price {
+            color: red;
+            font-weight: 700;
+        }
+        
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: whitesmoke;
+            border: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .quantity-btn:hover {
+            background: brown;
+            color: white;
+        }
+        
+        .quantity {
+            width: 80px;
+            text-align: center;
+        }
+        
+        .total-section {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 2px solid red;
+        }
+        
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .grand-total {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: red;
+        }
+        
+        .payment-methods {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .payment-method {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .payment-method input {
+            display: none;
+        }
+        
+        .payment-method label {
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: block;
+            font-weight: 600;
+        }
+        
+        .payment-method input:checked + label {
+            background: firebrick;
+            color: white;
+        }
+        
+        .payment-method i {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            display: block;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(45deg, red, goldenrod);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 10px 10px 10px rgba(0,0,0,0.1);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        .submit-btn:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .confirmation {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .confirmation i {
+            font-size: 4rem;
+            color:goldenrod;
+            margin-bottom: 1rem;
+        }
+        
+        .confirmation h2 {
+            color:red;
+            justify-content: center;
+        }
+        
+        .confirmation p {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        /* Footer Styles */
+        footer {
+            background-color: #1d3557;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        footer img {
+            height: 50px;
+            width: auto;
+            margin-bottom: 1rem;
+        }
+        
+        .fab {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+        
+        .fab:hover {
+            color: #a8dadc;
+        }
+        
+        footer p {
+            margin-top: 1rem;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            .navbar ul {
+                display: none;
+                position: absolute;
+                top: 90px;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                flex-direction: column;
+                padding: 1rem 0;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+                z-index: 999;
+            }
+            
+            .navbar ul.active {
+                display: flex;
+            }
+            
+            .navbar li {
+                padding: 0.8rem 1rem;
+                border-top: 1px solid #eee;
+                text-align: center;
+            }
+            
+            .delivery-options, .payment-methods {
+                flex-direction: column;
+            }
+            
+            .menu-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .quantity-selector {
+                align-self: flex-end;
+            }
+            
+            .container {
+                padding: 0 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .tagline {
+                font-size: 0.9rem;
+            }
+            
+            .order-card {
+                padding: 1.5rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar Section -->
+    <div class="navbar">
+        <div class="brand">
+            <img src="images/Logo.png" alt="Elafris Logo">
+        </div>
+        <div class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul id="nav-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="menu.html">Menu</a></li>
+            <li><a href="order.html">Order</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="logo">Good Kitchen</div>
+            <p class="tagline">Best home-styled dining experience</p>
+        </header>
+        
+        <div id="orderForm">
+            <div class="order-card">
+                <h2><i class="fas fa-user"></i> Your Details</h2>
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" placeholder="Enter your phone number" required>
+                </div>
+                <div class="form-group">
+                    <label for="address">Delivery Address</label>
+                    <textarea id="address" rows="3" placeholder="Enter your full address (if delivery)"></textarea>
+                </div>
+            </div>
+            
+            <div class="order-card">
+                <h2><i class="fas fa-truck"></i> Delivery Method</h2>
+                <div class="delivery-options">
+                    <div class="delivery-option">
+                        <input type="radio" id="delivery" name="deliveryMethod" value="delivery" checked>
+                        <label for="delivery">Delivery (+₦30.99)</label>
+                    </div>
+                    <div class="delivery-option">
+                        <input type="radio" id="pickup" name="deliveryMethod" value="pickup">
+                        <label for="pickup">Pickup</label>
+                    </div>
+                </div>
+                <div class="form-group" id="deliveryTimeGroup">
+                    <label for="deliveryTime">Preferred Delivery/Pickup Time</label>
+                    <input type="datetime-local" id="deliveryTime" required>
+                </div>
+            </div>
+            
+            <div class="order-card">
+                <h2><i class="fas fa-utensils"></i> Your Order</h2>
+                <div class="menu-item">
+                    <div>
+                        <div class="item-name">Signature Jollof Rice</div>
+                        <div class="item-description">Special recipe with chicken, plantain and coleslaw</div>
+                    </div>
+                    <div class="item-price">₦3,500</div>
+                    <div class="quantity-selector">
+                        <button class="quantity-btn minus" data-item="jollof">-</button>
+                        <input type="number" class="quantity" id="jollof-qty" value="0" min="0">
+                        <button class="quantity-btn plus" data-item="jollof">+</button>
+                    </div>
+                </div>
+                
+                <div class="menu-item">
+                    <div>
+                        <div class="item-name">Peppered Chicken Wings</div>
+                        <div class="item-description">Spicy chicken wings with our special sauce</div>
+                    </div>
+                    <div class="item-price">₦3,000</div>
+                    <div class="quantity-selector">
+                        <button class="quantity-btn minus" data-item="wings">-</button>
+                        <input type="number" class="quantity" id="wings-qty" value="0" min="0">
+                        <button class="quantity-btn plus" data-item="wings">+</button>
+                    </div>
+                </div>
+                
+                <div class="menu-item">
+                    <div>
+                        <div class="item-name">Pounded Yam & Egusi</div>
+                        <div class="item-description">With assorted meat and fish</div>
+                    </div>
+                    <div class="item-price">₦4,500</div>
+                    <div class="quantity-selector">
+                        <button class="quantity-btn minus" data-item="pounded-yam">-</button>
+                        <input type="number" class="quantity" id="pounded-yam-qty" value="0" min="0">
+                        <button class="quantity-btn plus" data-item="pounded-yam">+</button>
+                    </div>
+                </div>
+                
+                <div class="total-section">
+                    <div class="total-row">
+                        <span>Subtotal:</span>
+                        <span id="subtotal">₦0.00</span>
+                    </div>
+                    <div class="total-row">
+                        <span>Delivery Fee:</span>
+                        <span id="deliveryFee">₦30.99</span>
+                    </div>
+                    <div class="total-row grand-total">
+                        <span>Total:</span>
+                        <span id="total">₦30.99</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="order-card">
+                <h2><i class="fas fa-credit-card"></i> Payment Method</h2>
+                <div class="payment-methods">
+                    <div class="payment-method">
+                        <input type="radio" id="paystack" name="paymentMethod" value="paystack" checked>
+                        <label for="paystack">
+                            <i class="fas fa-money-bill-alt"></i>
+                            Paystack
+                        </label>
+                    </div>
+                    <div class="payment-method">
+                        <input type="radio" id="cash" name="paymentMethod" value="cash">
+                        <label for="cash">
+                            <i class="fas fa-money-bill-wave"></i>
+                            Cash on Delivery
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="order-card">
+                <h2><i class="fas fa-comment-alt"></i> Special Instructions</h2>
+                <div class="form-group">
+                    <textarea id="instructions" rows="3" placeholder="Any allergies, dietary restrictions, or special requests?"></textarea>
+                </div>
+            </div>
+            
+            <button class="submit-btn" id="submitOrder" disabled>
+                <i class="fas fa-lock"></i> Pay & Place Order
+            </button>
+        </div>
+        
+        <div class="confirmation" id="confirmation">
+            <i class="fas fa-check-circle"></i>
+            <h2>Order Confirmed!</h2>
+            <p>Your payment was successful and your order has been sent to our kitchen.</p>
+            <p>We'll contact you shortly to confirm the details.</p>
+            <p>Thank you for choosing Good Kitchen!</p>
+            <button class="submit-btn" onclick="window.location.reload()">
+                <i class="fas fa-utensils"></i> Place Another Order
+            </button>
+        </div>
+    </div>
+    
+    <!-- Footer Section -->
+    <footer>
+        <img src="images/Logo.png" alt="Logo">
+        <br>
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <p>&copy; 2025 Good Kitchen Restaurant. All Rights Reserved.</p>
+    </footer>
+    
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<script>
+        // Mobile menu toggle functionality
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            const navMenu = document.getElementById('nav-menu');
+            navMenu.classList.toggle('active');
+            
+            // Change icon based on menu state
+            const icon = this.querySelector('i');
+            if (navMenu.classList.contains('active')) {
+                icon.classList.replace('fa-bars', 'fa-times');
+            } else {
+                icon.classList.replace('fa-times', 'fa-bars');
+            }
+        });
+        
+        // Close menu when clicking on a link
+        document.querySelectorAll('#nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('nav-menu').classList.remove('active');
+                document.querySelector('.menu-toggle i').classList.replace('fa-times', 'fa-bars');
+            });
+        });
+    
+    // Quantity selector functionality
+    document.querySelectorAll('.quantity-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const item = this.getAttribute('data-item');
+            const input = document.getElementById(`${item}-qty`);
+            let value = parseInt(input.value);
+            
+            if (this.classList.contains('minus')) {
+                value = value > 0 ? value - 1 : 0;
+            } else {
+                value = value + 1;
+            }
+            
+            input.value = value;
+            updateTotals();
+        });
+    });
+    
+    // Update quantity inputs directly
+    document.querySelectorAll('.quantity').forEach(input => {
+        input.addEventListener('change', function() {
+            if (this.value < 0) this.value = 0;
+            updateTotals();
+        });
+    });
+    
+    // Delivery method change
+    document.querySelectorAll('input[name="deliveryMethod"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            const deliveryFee = this.value === 'delivery' ? '₦30.99' : '₦0.00';
+            document.getElementById('deliveryFee').textContent = deliveryFee;
+            updateTotals();
+        });
+    });
+    
+    // Update totals function
+    function updateTotals() {
+        const jollofPrice = 3500;
+        const wingsPrice = 3000;
+        const poundedYamPrice = 4500;
+        
+        const jollofQty = parseInt(document.getElementById('jollof-qty').value);
+        const wingsQty = parseInt(document.getElementById('wings-qty').value);
+        const poundedYamQty = parseInt(document.getElementById('pounded-yam-qty').value);
+        
+        const subtotal = (jollofQty * jollofPrice) + (wingsQty * wingsPrice) + (poundedYamQty * poundedYamPrice);
+        const deliveryFee = document.querySelector('input[name="deliveryMethod"]:checked').value === 'delivery' ? 30.99 : 0;
+        const total = subtotal + deliveryFee;
+        
+        document.getElementById('subtotal').textContent = `₦${subtotal.toLocaleString('en-US')}`;
+        document.getElementById('total').textContent = `₦${total.toLocaleString('en-US')}`;
+        
+        // Enable submit button if at least one item is selected
+        document.getElementById('submitOrder').disabled = subtotal === 0;
+    }
+    
+    // Form submission for demo
+    document.getElementById('submitOrder').addEventListener('click', function() {
+        // Validate form
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
+        const deliveryTime = document.getElementById('deliveryTime').value;
+        
+        if (!name || !email || !phone || !deliveryTime) {
+            alert('Please fill in all required fields');
+            return;
+        }
+        
+        if (parseInt(document.getElementById('jollof-qty').value) === 0 && 
+            parseInt(document.getElementById('wings-qty').value) === 0 && 
+            parseInt(document.getElementById('pounded-yam-qty').value) === 0) {
+            alert('Please select at least one menu item');
+            return;
+        }
+        
+        // Process payment
+        const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+        
+        if (paymentMethod === 'paystack') {
+            // Get the total amount in kobo (Paystack uses amounts in kobo)
+            const totalText = document.getElementById('total').textContent;
+            const amount = parseFloat(totalText.replace('₦', '').replace(',', '')) * 100;
+            
+            // Create Paystack handler with test credentials
+            const handler = PaystackPop.setup({
+                key: 'pk_test_c770bc31f0662b8a276a0eade7e5662e1c102a4b',
+                email: email,
+                amount: amount,
+                currency: 'NGN',
+                ref: 'DEMO-' + Date.now(), 
+                metadata: {
+                    custom_fields: [
+                        {
+                            display_name: "Customer",
+                            variable_name: "customer",
+                            value: name
+                        },
+                        {
+                            display_name: "Phone",
+                            variable_name: "phone",
+                            value: phone
+                        }
+                    ]
+                },
+                callback: function(response) {
+                    // For demo purposes, we'll just show success
+                    document.getElementById('orderForm').style.display = 'none';
+                    document.getElementById('confirmation').style.display = 'block';
+                    
+                    // In a real app, you would verify this payment with your backend
+                    console.log('Demo payment successful', response);
+                    
+                    // Store order in localStorage for demo
+                    const order = {
+                        reference: response.reference,
+                        name: name,
+                        email: email,
+                        phone: phone,
+                        items: getOrderItems(),
+                        total: totalText,
+                        date: new Date().toLocaleString()
+                    };
+                    localStorage.setItem('lastOrder', JSON.stringify(order));
+                },
+                onClose: function() {
+                    // For demo, we'll just log this
+                    console.log('Payment window closed');
+                }
+            });
+            
+            handler.openIframe();
+        } else {
+            // Cash on delivery demo
+            document.getElementById('orderForm').style.display = 'none';
+            document.getElementById('confirmation').style.display = 'block';
+            
+            // Store COD order in localStorage
+            const order = {
+                reference: 'COD-' + Date.now(),
+                name: name,
+                email: email,
+                phone: phone,
+                items: getOrderItems(),
+                total: document.getElementById('total').textContent,
+                date: new Date().toLocaleString(),
+                method: 'Cash on Delivery'
+            };
+            localStorage.setItem('lastOrder', JSON.stringify(order));
+        }
+    });
+    
+    // Helper function to get order items for demo
+    function getOrderItems() {
+        const items = [];
+        const jollofQty = parseInt(document.getElementById('jollof-qty').value);
+        const wingsQty = parseInt(document.getElementById('wings-qty').value);
+        const poundedYamQty = parseInt(document.getElementById('pounded-yam-qty').value);
+        
+        if (jollofQty > 0) items.push(`Jollof Rice (₦3,500) x ${jollofQty}`);
+        if (wingsQty > 0) items.push(`Chicken Wings (₦3,000) x ${wingsQty}`);
+        if (poundedYamQty > 0) items.push(`Pounded Yam (₦4,500) x ${poundedYamQty}`);
+        
+        return items.join(', ');
+    }
+</script>
+</body>
+</html>

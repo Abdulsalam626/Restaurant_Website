@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Good Kitchen Restaurant</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        /* Navbar Styles */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            padding: 15px 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .brand img {
+            height: 80px;
+            width: auto;
+            max-width: 100%;
+        }
+        
+        .navbar ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+        
+        .navbar li a {
+            text-decoration: none;
+            color: red;
+            font-weight: bold;
+            transition: color 0.3s;
+            font-size: 1.1rem;
+        }
+        
+        .navbar li a:hover {
+            color: brown;
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: red;
+            background: none;
+            border: none;
+            padding: 10px;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            min-height: 90vh;
+            color: white;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('images/Resturant-background\ \(1\).jpg'); 
+            background-size: cover;
+            background-position: center; 
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 15% 20px;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: bolder;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.1rem;
+            margin: 10px auto 20px;
+            max-width: 800px;
+        }
+        
+        .view-btn {
+            background-color: red;
+            color: white;
+            height: 45px;
+            width: 150px;
+            border-radius: 20px;
+            font-weight: bold;
+            border: transparent;
+            margin: 20px 0;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .view-btn:hover {
+            background-color: transparent;
+            border: 3px solid red;
+        }
+        
+        /* About Section */
+        .about-body {
+            display: flex;
+            margin: 50px;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+        
+        .about h2 {
+            text-align: center;
+            font-size: 2rem;
+            color: rgb(2, 2, 65);
+            margin: 20px;
+        }
+        
+        .about img {
+            width: 100%;
+            height: auto;
+            max-height: 500px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+        
+        .about-container {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .about-container h3 {
+            margin: 20px 0;
+            font-size: 1.8rem;
+        }
+        
+        .about-container p {
+            margin: 20px 0;
+            font-size: 1rem;
+        }
+        
+        /* Menu Section */
+        .menu {
+            padding: 50px 20px;
+            background-color: whitesmoke;
+            text-align: center;
+        }
+
+        .section-title h2 {
+            text-align: center;
+            font-size: 2rem;
+            color: rgb(2, 2, 65);
+            margin-bottom: 30px;
+        }
+        
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+            padding: 0 20px;
+        }
+                
+        .menu-item {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+                
+        .menu-item:hover {
+            transform: translateY(-10px);
+        }
+                
+        .menu-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+                
+        .menu-item-content {
+            padding: 20px;
+        }
+                
+        .menu-item-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: black;
+        }
+                
+        .menu-item-content p {
+            color: red;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+                
+        .price {
+            color: red;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .menu-btn-price {
+            background-color: red;
+            color: white;
+            border: none;
+            font-size: 1rem;
+            height: 3rem;
+            width: 7rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .cta-btn {
+            border-radius: 20px;
+            background-color: red;
+            height: 45px;
+            min-width: 150px;
+            width: auto;
+            padding: 0 20px;
+            color: white;
+            margin: 30px 0;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        
+        /* Contact Section */
+        .contact-container {
+            display: flex;
+            margin: 3rem 20px;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+        
+        .contact-section h2 {
+            font-size: 2rem;
+            color: rgb(2, 2, 65);
+            text-align: center;
+            margin: 2rem 0;
+        }
+        
+        .contact-details {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .contact-details h4 {
+            font-size: 1.5rem;
+            color: rgb(2, 2, 65);
+            margin-bottom: 15px;
+        }
+        
+        .fas {
+            color: red;
+            margin: 10px 10px 10px 0;
+        }
+        
+        .contact-form {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        input, textarea {
+            width: 100%;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            border: none;
+            background-color: whitesmoke;
+            font-size: 1rem;
+        }
+        
+        textarea {
+            height: 150px;
+            resize: vertical;
+        }
+        
+        .send-btn {
+            height: 45px;
+            width: 40%;
+            min-width: 120px;
+            margin: 10px 0 0;
+            cursor: pointer;
+            color: white;
+            background-color: red;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+        
+        /* Footer Section */
+        footer {
+            padding: 40px 20px;
+            background-color: #1d3557;
+            text-align: center;
+        }
+        
+        footer img {
+            width: auto;
+            height: 40px;
+            margin: 0 10px 20px;
+            max-width: 100%;
+        }
+        
+        .fab {
+            color: white;
+            margin: 10px;
+            font-size: 1.5rem;
+        }
+        
+        footer p {
+            color: white;
+            margin-top: 20px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .about-body {
+                margin: 40px 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 10px 20px;
+                position: relative;
+            }
+            
+            .brand img {
+                height: 60px;
+            }
+            
+            .navbar ul {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: white;
+                display: none;
+                flex-direction: column;
+                gap: 0;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            }
+            
+            .navbar ul.active {
+                display: flex;
+            }
+            
+            .navbar li {
+                width: 100%;
+                text-align: center;
+                padding: 15px 0;
+                border-top: 1px solid #eee;
+            }
+            
+            .menu-toggle {
+                display: block;
+                position: absolute;
+                right: 20px;
+                top: 20px;
+                z-index: 1001;
+            }
+            
+            .hero {
+                padding: 25% 15px;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .about-body {
+                margin: 30px 15px;
+                gap: 20px;
+            }
+            
+            .about-container h3 {
+                font-size: 1.5rem;
+            }
+            
+            .contact-container {
+                margin: 2rem 15px;
+                gap: 30px;
+            }
+            
+            .menu-grid {
+                padding: 0 10px;
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 30% 15px;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .about h2, .section-title h2, .contact-section h2 {
+                font-size: 1.8rem;
+            }
+            
+            .about-container h3 {
+                font-size: 1.3rem;
+            }
+            
+            .menu-item-content h3 {
+                font-size: 1.1rem;
+            }
+            
+            .contact-details h4 {
+                font-size: 1.3rem;
+            }
+            
+            .about-body, .contact-container {
+                margin-left: 10px;
+                margin-right: 10px;
+            }
+            
+            input, textarea {
+                padding: 12px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+            
+            .hero p {
+                font-size: 0.9rem;
+            }
+            
+            .view-btn, .cta-btn, .send-btn {
+                width: 100%;
+                max-width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar Section -->
+    <div class="navbar">
+        <div class="brand">
+            <img src="images/Logo.png" alt="Kitchen Logo">
+        </div>
+        <button class="menu-toggle" aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i>
+        </button>
+        <ul id="nav-menu">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="menu.html">Menu</a></li>
+            <li><a href="order.html">Order</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </div>
+    
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <h1>Best Home Styled Dining Experience</h1>
+        <p>Where Culinary Art Meets Unforgettable Experiences with our bespoke home dining experience, perfect for intimate dinners, celebrations, or simply indulging in gourment meals without leaving your doorstep.</p>
+        <a href="#menu"><button class="view-btn">View Our Menu</button></a>
+    </section>
+    
+    <!-- About Section -->
+    <section class="about" id="about">
+        <h2>Our Story</h2>
+        <div class="about-body">
+            <div class="about-container">
+                <h3>Crafting Memorable Dining Experiences Since 2010</h3>
+                <p>Founded by Chef Marco Elafris, our restaurant has been serving innovative dishes that blend traditional techniques with modern flair. We believe in sustainability, supporting local farmers, and creating dishes that tell a story. Every plate at Elafris is a work of art, carefully prepared to excite your palate and delight your senses. Our seasonal menu changes regularly to showcase the freshest ingredients available.</p>
+            </div>
+            <img src="images/People eating.jpg" alt="People dining at restaurant">
+        </div>
+    </section>
+    
+    <!-- Menu Section -->
+    <section id="menu" class="menu">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Menu</h2>
+            </div>
+            <div class="menu-grid">
+                <!-- Menu Item 1 -->
+                <div class="menu-item">
+                    <a href="menu.html#rice"><img src="images/chinese rice.webp" alt="Vermicelli Noodles"></a>
+                    <div class="menu-item-content">
+                        <h3>VERMICELLI NOODLES, CHINESE RICE AND SAUCE</h3>
+                        <span class="price">₦3,500.00</span>
+                        <p>Enjoy our delicious and premium Vermicelli Noodles comes with Turkey lap and...</p>
+                    </div>
+                </div>
+                
+                <!-- Menu Item 2 -->
+                <div class="menu-item">
+                    <a href="menu.html#swallow"><img src="images/fufu-with-afang-soup.webp" alt="Poundo with Vegetable Soup"></a>
+                    <div class="menu-item-content">
+                        <h3>POUNDO WITH VEGETABLE SOUP</h3>
+                        <span class="price">₦4,000.00</span>
+                        <p>Comes with One wrap of Poundo with 2pieces of Beef...</p>
+                    </div>
+                </div>
+                
+                <!-- Menu Item 3 -->
+                <div class="menu-item">
+                    <a href="menu.html#protein"><img src="images/pepper-wings.webp" alt="Pepper Chicken Wings"></a>
+                    <div class="menu-item-content">
+                        <h3>PEPPER CHICKEN WINGS (PACK OF 10 PIECES)</h3>
+                        <span class="price">₦3,000.00</span>
+                        <p>Enjoy our delicious and premium Pepper Chicken Wings...</p>
+                    </div>
+                </div>
+            </div>
+            <a href="menu.html"><button class="cta-btn">View Full Menu</button></a>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <div class="contact-section" id="contact">
+        <h2>Contact Us</h2>
+        <div class="contact-container"> 
+            <div class="contact-details">
+                <h4>Vist Us</h4>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Gourmet Avenue, Foodie City, FC 12345</p>
+                <p><i class="fas fa-phone"></i>(123) 456-7890</p>
+                <p><i class="fas fa-envelope"></i>info@elafris.com</p>
+                <h4>Hours</h4>
+                <p>Monday - Thursday: 11am - 10pm</p>
+                <p>Friday - Saturday: 11am - 11pm</p>
+                <p>Sunday: 10am - 9pm</p>
+            </div>
+            <div class="contact-form">
+                <input type="text" placeholder="Your Name" name="name" required>
+                <input type="email" placeholder="Your Email" name="email" required>
+                <input type="tel" placeholder="Your Phone" name="phone" required>
+                <textarea placeholder="Your Message" name="description" required></textarea>
+                <button type="submit" class="send-btn">Send Message</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer Section -->
+    <footer>
+        <img src="images/Logo.png" alt="Kitchen Logo">
+        <br>
+        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        <p>&copy; 2025 Good Kitchen Restaurant. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Mobile menu toggle functionality
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            const navMenu = document.getElementById('nav-menu');
+            navMenu.classList.toggle('active');
+            
+            // Change icon based on menu state
+            const icon = this.querySelector('i');
+            if (navMenu.classList.contains('active')) {
+                icon.classList.replace('fa-bars', 'fa-times');
+            } else {
+                icon.classList.replace('fa-times', 'fa-bars');
+            }
+        });
+        
+        // Close menu when clicking on a link
+        document.querySelectorAll('#nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('nav-menu').classList.remove('active');
+                document.querySelector('.menu-toggle i').classList.replace('fa-times', 'fa-bars');
+            });
+        });
+    </script>
+</body>
+</html>

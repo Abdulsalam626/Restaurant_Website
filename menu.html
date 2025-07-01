@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Elafris Restaurant Menu</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        /* Navbar Styles */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            padding: 15px 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .brand img {
+            height: 80px;
+            width: auto;
+            max-width: 100%;
+        }
+        
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: red;
+            background: none;
+            border: none;
+            padding: 10px;
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            z-index: 1001;
+        }
+        
+        #nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+        
+        #nav-menu li a {
+            text-decoration: none;
+            color: red;
+            font-weight: bold;
+            transition: color 0.3s;
+            font-size: 1.1rem;
+        }
+        
+        #nav-menu li a:hover {
+            color: darkred;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(images/Background-Menu.jpg);
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            color: white;
+            padding: 6rem 1rem;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            color: red;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        h4 {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Menu Button */
+        .menu-btn {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        
+        .menu-btn button {
+            background-color: red;
+            font-size: 1rem;
+            font-weight: bold;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 12px 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .menu-btn button:hover {
+            background-color: white;
+            color: black;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+        
+        /* Section Styles */
+        h2 {
+            border-top: 5px double red;
+            border-bottom: 5px double red;
+            padding: 15px;
+            font-size: 2rem;
+            color: red;
+            margin: 0 auto 2rem;
+            text-align: center;
+            max-width: 1200px;
+        }
+        
+        .menu-section {
+            padding: 2rem 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .menu-card {
+            background-color: whitesmoke;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .menu-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .menu-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 10px 10px 0 0;
+        }
+        
+        .menu-title {
+            padding: 1.5rem;
+        }
+        
+        .menu-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #222;
+        }
+        
+        .menu-card p {
+            color: red;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        h5 {
+            font-size: 0.9rem;
+            color: red;
+            font-weight: normal;
+        }
+        
+        /* Footer Styles */
+        footer {
+            background-color: #1d3557;
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-top: 3rem;
+        }
+        
+        footer img {
+            height: 50px;
+            width: auto;
+            margin-bottom: 1rem;
+            max-width: 100%;
+        }
+        
+        .fab {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+        
+        .fab:hover {
+            color: darkturquoise;
+        }
+        
+        footer p {
+            margin-top: 1rem;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .menu-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 992px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            header {
+                padding: 5rem 1rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            #nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                flex-direction: column;
+                padding: 1rem 0;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+                z-index: 1000;
+            }
+            
+            #nav-menu.active {
+                display: flex;
+            }
+            
+            #nav-menu li {
+                padding: 0.8rem 1rem;
+                border-top: 1px solid #eee;
+                text-align: center;
+            }
+            
+            header {
+                padding: 4rem 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h4 {
+                font-size: 1rem;
+            }
+            
+            .menu-section {
+                padding: 2rem 1rem;
+            }
+            
+            .menu-grid {
+                gap: 20px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .brand img {
+                height: 60px;
+            }
+            
+            header {
+                padding: 3rem 1rem;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+                padding: 10px;
+            }
+            
+            .menu-card h3 {
+                font-size: 1.1rem;
+            }
+            
+            .menu-card p {
+                font-size: 1.3rem;
+            }
+            
+            .menu-card img {
+                height: 200px;
+            }
+            
+            .menu-title {
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .menu-card img {
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar Section -->
+    <div class="navbar">
+        <div class="brand">
+            <img src="images/Logo.png" alt="Kitchen Logo">
+        </div>
+        <button class="menu-toggle" aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i>
+        </button>
+        <ul id="nav-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="menu.html">Menu</a></li>
+            <li><a href="order.html">Order</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+    </div>
+    
+    <!-- Header Section -->
+    <header>
+        <h1>Our Menu</h1>
+        <h4>Experience culinary excellence with our carefully crafted menu featuring seasonal ingredients and innovative flavors</h4>
+    </header>
+
+    <!-- Rice Section -->
+    <div class="menu-section" id="rice">
+        <h2>Rice</h2>
+        <div class="menu-grid">
+            <div class="menu-card">
+                <img src="images/chinese rice.webp" alt="Vermicelli Noodles">
+                <div class="menu-title">
+                    <h3>VERMICELLI NOODLES, CHINESE RICE AND SAUCE</h3>
+                    <p>₦5,000.00</p>
+                </div>
+            </div>
+        
+            <div class="menu-card">
+                <img src="images/fried rice.webp" alt="Fried Rice">
+                <div class="menu-title">
+                    <h3>FRIED RICE + CHOICE OF PROTEIN + FREE DRINK</h3>
+                    <p>₦3,500.00</p>
+                </div>
+            </div>
+
+            <div class="menu-card">
+                <img src="images/jollof rice.webp" alt="Jollof Rice">
+                <div class="menu-title">
+                    <h3>JOLLOF RICE + CHOICE OF PROTEIN + FREE DRINK</h3>
+                    <p>₦3,500.00</p>
+                </div>
+            </div>
+
+            <div class="menu-card">
+                <img src="images/ofada rice.webp" alt="Ofada Rice">
+                <div class="menu-title">
+                    <h3>OFADA RICE WITH SAUCE</h3>
+                    <p>₦2,500.00</p>
+                    <h5>Enjoy our delicious and premium Ofada Rice with Sauce, made...</h5>
+                </div>
+            </div>
+
+            <div class="menu-card">
+                <img src="images/peppered shrimp sauce.webp" alt="Peppered Shrimp Sauce">
+                <div class="menu-title">
+                    <h3>PEPPERED SHRIMP SAUCE WITH PLAIN RICE</h3>
+                    <p>₦3,000.00</p>
+                    <h5>Enjoy our delicious and Premium Peppered Shrimp Sauce with plain...</h5>
+                </div>
+            </div>
+
+            <div class="menu-card">
+                <img src="images/shredded chicken.webp" alt="Shredded Chicken">
+                <div class="menu-title">
+                    <h3>SHREDDED CHICKEN SAUCE WITH PLAIN RICE</h3>
+                    <p>₦3,000.00</p>
+                    <h5>Enjoy our delicious and premium Shredded Chicken Sauce with plain...</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pasta Section -->
+    <div class="menu-section" id="pasta">
+        <h2>PASTA</h2>
+        <div class="menu-grid">
+            <div class="menu-card">
+                <img src="images/chinese rice.webp" alt="Vermicelli Noodles">
+                <div class="menu-title">
+                    <h3>VERMICELLI NOODLES, CHINESE RICE AND SAUCE</h3>
+                    <p>₦5,000.00</p>
+                </div>
+            </div>
+        
+            <div class="menu-card">
+                <img src="images/spaghetti jollof.webp" alt="Spaghetti Jollof">
+                <div class="menu-title">
+                    <h3>SPAGHETTI JOLLOF WITH 2 BEEF</h3>
+                    <p>₦2,500.00</p>
+                </div>
+            </div>
+
+            <div class="menu-card">
+                <img src="images/Vegetable-Spaghetti-Recipe-1200.webp" alt="Vegetable Spaghetti">
+                <div class="menu-title">
+                    <h3>SPICY VEGETABLE PASTA + CHOICE OF PROTEIN</h3>
+                    <p>₦7,000.00</p>
+                </div>
+            </div>
+
+            <div class="menu-card">
+                <img src="images/creamy prawn.webp" alt="Creamy Prawn Pasta">
+                <div class="menu-title">
+                    <h3>TAGLIATELLE CREAMY PRAWN PASTA</h3>
+                    <p>₦6,000.00</p>
+                    <h5>Enjoy our delicious and premium Tagliatelle Creamy Prawn Pasta, made...</h5>
+                </div>
+            </div>
+
+            <div class="menu-card">
+                <img src="images/spicy pasta.webp" alt="Spicy Pasta">
+                <div class="menu-title">
+                    <h3>SPICY VEGETABLE PASTA</h3>
+                    <p>₦7,000.00</p>
+                    <h5>Enjoy our delicious and Spicy Vegetable Pasta, made specially...</h5>
+                </div>
+            </div>
+
+            <div class="menu-card">
+                <img src="images/spicy protein sauce.webp" alt="Spicy Protein Sauce">
+                <div class="menu-title">
+                    <h3>SPICY PROTEIN SAUCE WITH PLAIN PASTA</h3>
+                    <p>₦6,000.00</p>
+                    <h5>Enjoy our delicious and Spicy Protein Sauce with plain Pasta...</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Protein Section -->
+    <div class="menu-section" id="protein">
+        <h2>PROTEIN</h2>
+        <div class="menu-grid">
+            <div class="menu-card">
+                <img src="images/pepper-wings.webp" alt="Pepper Chicken Wings">
+                <div class="menu-title">
+                    <h3>PEPPER CHICKEN WINGS (PACK OF 10 PIECES)</h3>
+                    <p>₦8,000.00</p>
+                </div>
+            </div>
+        
+            <div class="menu-card">
+                <img src="images/peppered snail.webp" alt="Peppered Snail">
+                <div class="menu-title">
+                    <h3>PEPPERED JUMBO SNAIL</h3>
+                    <p>₦7,500.00</p>
+                </div>
+            </div>
+
+            <div class="menu-card">
+                <img src="images/peppered pomo.webp" alt="Peppered Pomo">
+                <div class="menu-title">
+                    <h3>PEPPERED POMO (ONE PACK)</h3>
+                    <p>₦1,500.00</p>
+                </div>
+            </div>
+
+            <div class="menu-card">
+                <img src="images/peppered gizzard.webp" alt="Peppered Gizzard">
+                <div class="menu-title">
+                    <h3>PEPPERED GIZZARD (1 PORTION)</h3>
+                    <p>₦1,500.00</p>
+                </div>
+            </div>
+
+            <div class="menu-card">
+                <img src="images/peppered croaker.webp" alt="Peppered Croaker">
+                <div class="menu-title">
+                    <h3>PEPPERED CROAKER FISH (1 PORTION)</h3>
+                    <p>₦2,000.00</p>
+                </div>
+            </div>
+
+            <div class="menu-card">
+                <img src="images/shredded chicken.webp" alt="Shredded Chicken">
+                <div class="menu-title">
+                    <h3>SHREDDED CHICKEN SAUCE WITH PLAIN RICE</h3>
+                    <p>₦3,000.00</p>
+                    <h5>Enjoy our delicious and premium shredded chicken sauce with plain...</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Swallow Section -->
+    <div class="menu-section" id="swallow">
+        <h2>SWALLOW</h2>
+        <div class="menu-grid">
+            <div class="menu-card">
+                <img src="images/semo-with-egusi.webp" alt="Semo with Egusi">
+                <div class="menu-title">
+                    <h3>SEMO WITH EGUSI SOUP</h3>
+                    <p>₦4,000.00</p>
+                </div>
+            </div>
+        
+            <div class="menu-card">
+                <img src="images/semo-with-vegetables.webp" alt="Fufu with Vegetable">
+                <div class="menu-title">
+                    <h3>FUFU WITH VEGETABLE SOUP</h3>
+                    <p>₦3,000.00</p>
+                    <h5>Comes with one wrap of FuFu with 2pieces of Beef...</h5>
+                </div>
+            </div>
+
+            <div class="menu-card">
+                <img src="images/fufu-with-afang-soup.webp" alt="Poundo with Vegetable">
+                <div class="menu-title">
+                    <h3>POUNDO WITH VEGETABLE SOUP</h3>
+                    <p>₦4,000.00</p>
+                    <h5>Comes with one wrap of Poundo with 2pieces of Beef...</h5>
+                </div>
+            </div>
+
+            <div class="menu-card">
+                <img src="images/semo-with-okro.webp" alt="Eba with Okro">
+                <div class="menu-title">
+                    <h3>EBA WITH OKRO</h3>
+                    <p>₦4,000.00</p>
+                    <h5>Comes with Shrimps and two wraps of Eba</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Jolly Package Section -->
+    <div class="menu-section" id="jolly">
+        <h2>JOLLY PACK</h2>
+        <div class="menu-grid">
+            <div class="menu-card">
+                <img src="images/beans porridge.webp" alt="Beans Porridge">
+                <div class="menu-title">
+                    <h3>PORRIDGE BEANS WITH PEPPERED BEEF</h3>
+                    <p>₦2,000.00</p>
+                </div>
+            </div>
+        
+            <div class="menu-card">
+                <img src="images/rice-and-stew.webp" alt="Rice and Stew">
+                <div class="menu-title">
+                    <h3>WHITE RICE + BEANS WITH CHICKEN AND PLANTAIN</h3>
+                    <p>₦3,500.00</p>
+                </div>
+            </div>
+
+            <div class="menu-card">
+                <img src="images/fried rice and chicken with coleslaw.webp" alt="Fried Rice and Chicken">
+                <div class="menu-title">
+                    <h3>FRIED RICE AND CHICKEN WITH COLESLAW</h3>
+                    <p>₦3,000.00</p>
+                </div>
+            </div>
+
+            <div class="menu-card">
+                <img src="images/jollof-and-turkey-with-coleslaw.webp" alt="Jollof and Turkey">
+                <div class="menu-title">
+                    <h3>JOLLOF RICE AND TURKEY (HALF) WITH COLESLAW</h3>
+                    <p>₦3,000.00</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Drinks Section -->
+    <div class="menu-section" id="drinks">
+        <h2>DRINKS</h2>
+        <div class="menu-grid">
+            <div class="menu-card">
+                <img src="images/chi-brands.webp" alt="Chi Brands Juice">
+                <div class="menu-title">
+                    <h3>JUICE (CHI-BRANDS)</h3>
+                    <p>₦1,000.00</p>
+                    <h5>A chilled pack of juice to help you step down...</h5>
+                </div>
+            </div>
+        
+            <div class="menu-card">
+                <img src="images/soft-drinks.webp" alt="Soft Drinks">
+                <div class="menu-title">
+                    <h3>SOFT DRINKS</h3>
+                    <p>₦300.00</p>
+                    <h5>A Chilled Bottle of soft drink to help you step...</h5>
+                </div>
+            </div>
+
+            <div class="menu-card">
+                <img src="images/Eva-Table-Water.webp" alt="Bottle Water">
+                <div class="menu-title">
+                    <h3>BOTTLE WATER</h3>
+                    <p>₦300.00</p>
+                    <h5>A Chilled Bottle water to help you step down your...</h5>
+                </div>
+            </div>
+
+            <div class="menu-card">
+                <img src="images/amstel-malt.webp" alt="Malt Drinks">
+                <div class="menu-title">
+                    <h3>MALT DRINKS</h3>
+                    <p>₦500.00</p>
+                    <h5>A Chilled Bottle or Can Malt to help you step...</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <img src="images/logo.png" alt="Logo">
+        <br>
+        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        <p>&copy; 2025 Elafris Restaurant. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Mobile menu toggle functionality
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            const navMenu = document.getElementById('nav-menu');
+            navMenu.classList.toggle('active');
+            
+            // Change icon based on menu state
+            const icon = this.querySelector('i');
+            if (navMenu.classList.contains('active')) {
+                icon.classList.replace('fa-bars', 'fa-times');
+            } else {
+                icon.classList.replace('fa-times', 'fa-bars');
+            }
+        });
+        
+        // Close menu when clicking on a link
+        document.querySelectorAll('#nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('nav-menu').classList.remove('active');
+                document.querySelector('.menu-toggle i').classList.replace('fa-times', 'fa-bars');
+            });
+        });
+    </script>
+</body>
+</html>
